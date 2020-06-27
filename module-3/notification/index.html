@@ -11,10 +11,20 @@
   import NotificationMessage from './notification.js';
 
   btn1.addEventListener('click', () => {
-    const notification = new NotificationMessage('hello world', {
-      duration: 2000,
-      type: 'success'
+    const notification = new NotificationMessage( generateRandowWord(), {
+      duration: generateRandowNumber(1000, 4000),
+      type: Math.random() <= 0.5 ? 'success' : 'error',
     });
+
+    function generateRandowNumber(start, end) {
+      return start + Math.random() * end;
+    }
+
+    function generateRandowWord() {
+      const words = ['Apple', 'Banana', 'Pear', 'Melon', 'Mango'];
+      
+      return words[Math.round(generateRandowNumber(0,4))];
+    }
 
     notification.show();
   });

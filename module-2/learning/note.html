@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Note module-2</title>
+</head>
+
+<style>
+  body {
+    padding: 0 3%;
+  }
+</style>
+<body>
+  <h1>Note module-2</h1>
+  <h2>This</h2>
+  <h3>Method shorthand </h3>
+  <p>
+    const user = {
+    name: blabla,
+    sayHi() {
+    console.log(this.name);
+    }
+    }
+  </p>
+  <p>
+    The value of this is object before dot for instance
+    user.sayHi(); this === user
+  </p>
+  <p>
+    Same function can be assigned to two diferent objects and has differnt this in this calls.
+    Calling without an object this === undefined in strict mode in non-strict thi value of this will be the window
+    (global object)
+  </p>
+  <h3>Summary </h3>
+  <p>
+    Funtions that are stored in objects properties are called 'methods'
+    Method can refernce the objects as this
+    The value of this is defined at run-time:
+    When the function is declared, it may use this, but that this has no value until the method is called
+    A funtcion can be copied between the objects
+    Arrow funtion have no this. When this is accesed inside an arrow functon is taken from outside.
+  </p>
+  <h2>Object to primitive conversion</h2>
+  <p>
+    Object are true in a boolean context.
+    The numeric conversion happens when we substruct objects or apply mathematical functions.
+    As for the sting conversion.
+    We can fine-tune string and numeric conversion using special object method.
+    The are three variants of type converision so-called hints:
+    String, Number, default (occurs in rare cases when when the operator is not sure what type to expect)
+  </p>
+
+  <h3>To do conversion, JS tries to find and call three object methods: </h3>
+
+  <ul style="list-style-type: decimal;">
+    <li>
+      <div>Call obj[Symbol.toPrimitive](hint)</div>
+      <div>Instance:</div>
+      <div style="white-space: pre-wrap">
+        let user = {
+          name: 'Jonh',
+          money: 1000,
+
+          [Symbol.toPrimitive](hint) {
+          console.log(`hint: ${hint}`);
+
+          return hint == "string" ? `{name: "${this.name}"}` : this.money;
+          }
+        }
+
+        alert(user);
+        alert(+user);
+        alert(user + 500);
+
+        The single method handels 
+      </div>
+    </li>
+    <li>
+      <div>If hint string try obj.toString() and obj.valueOf()</div>
+      <div>
+        <p>
+          This methods come from ancient times. If there is no Symbol.toPrimitive then JS tries to find them and try in the order: 
+          toString -> valueOf for string and vice versa for number. 
+          Thise methods must return primitive value, otherwise treat them if there were no method
+          By default toString return a string "[object Object]", valueOf return the object itself (for historical reasons). 
+        </p>
+        <p>
+          Combination of them does the same as code above. 
+          If we want handle all primitive converision we can implement toSting.          
+        </p>
+      </div>
+    </li>
+    <li>
+      <div>If hint number or default try obj.valueOf() and obj.toString()</div>
+    </li>
+  </ul>
+  <p>Further converision: if the resulting primitive isn't of the right tipe, it will be converted.</p>
+
+
+  <h2>Constructor, operator new </h2>
+  <p>Using for create many similar objects.</p>
+  <p>Constructor, regular funtian but named with capital letter first, should be executed only with new operator.</p>
+  <p>When a funtion executed with new it does following steps:</p>
+  <ul style="list-style-type: decimal;">
+    <li>A new empty object is created and assigned this. // this = {}</li>
+    <li>The funtion body executes. Usually it modifies this, adds new properties to it. // this.name = 'smth';</li>
+    <li>The value of this is returned. // return {};</li>
+  </ul>
+
+  <h2>Arrow functions, the basics</h2>
+  <p>Call that because look like arrow</p>
+  <p>Instanse: let sum = (a,b) => a + b </p>
+  <p>By default return result</p>
+  <p>
+    If one argument we can omit parentheses, we thre are no
+    arguments, parentheses will be empty.
+  </p>
+  <p>
+    If we want multiple statement or expressions we should 
+    enclose expresion to curly braces. Then use normal 
+    return
+  </p>
+
+  <h2>Automated testing with Mocha</h2>
+  <p>Automated teting run our code in various ways and compare result with the expected.</p>
+    
+  
+  <h3>Behavior Driver Development</h3>
+  <p>BDD is three things in one: test and documentation and examples</p>
+  <p>Description is called specification or, in short, spec, and contains
+    description of use cases together with test for them </p>
+  <p style="white-space: pre-wrap;">
+    describe("pow", function() { // what funtionality we describing
+      it("raises to n-th power", function(){ // particular use case and funtion that test it
+        assert.equal(pow(2, 3), 8); // error if first argumnet !== second;
+      });
+    });
+  </p>
+  <p>Making test separeted more useful (two or more "it"), in one block it 
+    test not going forfard after first fail and we'll never see result of second assert</p>
+  <p>
+    We can generate it block in loop (for). 
+  </p>
+  <p>We can nested describe for better structure of complecated tests</p>
+  <p>Exists block before/after, beforeEach/afterEach</p>
+</body>
+
+</html>
